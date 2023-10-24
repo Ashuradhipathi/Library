@@ -1,9 +1,10 @@
 import streamlit as st
 import pymongo
+import os
 from pymongo import MongoClient
 
 # Initialize MongoDB connection
-client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
+client = MongoClient('', serverSelectionTimeoutMS=60000)
 db = client['HacksForU']
 Roadmaps = db['Roadmaps']
 
@@ -28,7 +29,8 @@ roadmaps = show_roadmaps()
 for roadmap in roadmaps:
     st.subheader(roadmap['Title'])
     st.write(roadmap['Description'])
-    st.image(roadmap['Image'], use_column_width=True)
+    if roadmap['Image']:
+        st.image(roadmap['Image'], use_column_width=True)
     st.write(f"Link: [{roadmap['Link']}](roadmap['Link'])")
 
 # Create a new roadmap
